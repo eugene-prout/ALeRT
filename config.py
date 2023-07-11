@@ -1,10 +1,10 @@
 import os
 from dynaconf import Dynaconf
 
-import os
 import re
 from azure.keyvault.secrets import SecretClient
 from azure.identity import DefaultAzureCredential
+
 
 def load_azure_key_vault(obj, env=None, silent=False, key=None, filename=None):
     """
@@ -16,11 +16,11 @@ def load_azure_key_vault(obj, env=None, silent=False, key=None, filename=None):
     :param filename: Custom filename to load (useful for tests)
     :return: None
     """
-    
+
     key_vault_name = os.getenv("KEY_VAULT_NAME")
     if key_vault_name is None:
         return
-    
+
     key_vault_url = f"https://{key_vault_name}.vault.azure.net"
 
     credential = DefaultAzureCredential()
@@ -36,7 +36,7 @@ def load_azure_key_vault(obj, env=None, silent=False, key=None, filename=None):
         value = client.get_secret(name).value
 
         if m := regex.match(name):
-            new_settings[m.group(1)] = { m.group(2): value }
+            new_settings[m.group(1)] = {m.group(2): value}
         else:
             new_settings[name] = value
 
@@ -45,7 +45,7 @@ def load_azure_key_vault(obj, env=None, silent=False, key=None, filename=None):
 
 settings = Dynaconf(
     envvar_prefix="DYNACONF",
-    settings_files=['settings.toml'],
+    settings_files=["settings.toml"],
 )
 
 load_azure_key_vault(settings)

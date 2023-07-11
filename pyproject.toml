@@ -1,0 +1,7 @@
+[project]
+name = "alert"
+version = "1.0.0"
+description = "ALeRT web app"
+
+[tool.coverage.run]
+include = ["alert/*"]
