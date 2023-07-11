@@ -1,0 +1,3 @@
+Put JS files in this folder
+
+Use local copies rather than CDN versions
