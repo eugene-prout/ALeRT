@@ -24,7 +24,7 @@ jobs:
         
       - name: Install ALeRT
         run: |
-          pip install -e alert
+          pip install -e .
       
       - name: Formatter gate
         run: |
