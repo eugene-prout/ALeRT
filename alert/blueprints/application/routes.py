@@ -10,5 +10,4 @@ def home():
 
 @application.route("/health")
 def health():
-    # Testing for PR gate
-    return {"status": 'healthy' }, 200
+    return {"status": "healthy"}, 200
