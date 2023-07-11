@@ -10,11 +10,13 @@ Note: gunicorn is not compatible with Microsoft Windows, to test application on 
 
 ### Flask Development Server
 
-1. Create virtual environment, activate it and install dependencies
+1. Create virtual environment, activate it and install dependencies from `requirements.txt`
 
-2. From the root folder, run `flask --app alert.app run --debug`
+2. Install the project with `pip install -e .`
 
-3. Server is accessible at `http://127.0.0.1:5000/`
+3. From the root folder, run `flask --app alert.app run --debug`
+
+4. Server is accessible at `http://127.0.0.1:5000/`
 
 The `--debug` flag enables live reloading so if you modify then save a file the server will restart automatically.
 
@@ -29,6 +31,20 @@ The `--debug` flag enables live reloading so if you modify then save a file the 
 4. Server is accessible at `http://127.0.0.1:8000/`
 
 There is no live reloading so you must rebuild the image to see your changes.
+
+## Testing
+
+Pytest is used to run the tests. Run `pytest` at the root directory to execute the tests.
+
+Test code coverage is available with `coverage run -m pytest` and then `coverage report` to view the report.
+
+100% coverage in handlers is the goal.
+
+## Contributing
+
+There are pipelines set up for CI. All changes must be brought in `main` through a pull request. When a PR is created, a code quality check pipeline is executed. This will check that `black` would not change the format, and that `pytest` reports no errors. Then the code can be merged into `main`. On a merge, a release pipeline is executed, this will build and push a Docker image to a container registry for deployment.
+
+In short, before committing make sure `black` and `pytest` report no errors.
 
 ## Configuration
 
