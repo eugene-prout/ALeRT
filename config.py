@@ -36,7 +36,7 @@ def load_azure_key_vault(obj, env=None, silent=False, key=None, filename=None):
         value = client.get_secret(name).value
 
         if m := regex.match(name):
-            new_settings[m.group(1)] = {m.group(2): value}
+            new_settings[m.group(1)].update({m.group(2): value})
         else:
             new_settings[name] = value
 
