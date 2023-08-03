@@ -1,0 +1,22 @@
+{% extends "layouts/base.html" %}
+
+{% block body %}
+<nav class="navbar bg-body-tertiary mb-3">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">
+            ALeRT | Grammar property visualiser
+        </span>
+        <span>
+            <a href="https://github.com/eugene-prout/ALeRT"
+                style="color: inherit;">GitHub<i class="bi bi-github"
+                    style="font-size: 2rem"></i></a>
+        </span>
+    </div>
+</nav>
+
+<div class="container-fluid text-center">
+    {% block content %}
+    {% endblock %}
+</div>
+
+{% endblock %}
