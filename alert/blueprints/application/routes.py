@@ -1,12 +1,14 @@
 from flask import Blueprint, render_template
 
+from alert.forms import EditGrammarForm
 
 application = Blueprint("user", __name__)
 
 
 @application.route("/")
 def home():
-    return render_template("application/home.html")
+    form = EditGrammarForm()
+    return render_template("application/home.html",form=form)
 
 
 @application.route("/health")

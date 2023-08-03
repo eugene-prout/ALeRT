@@ -14,6 +14,8 @@ def create_app():
     
     app.config.from_object("config.settings")
 
+    app.config['SECRET_KEY'] = 'supersecretunguessablekey'
+
     app.register_blueprint(application)
 
     
