@@ -23,7 +23,6 @@ class TerminalSet():
 
 def graph_of_grammar(grammartext):
 
-
     terminal = pp.Group(pp.QuotedString('"') | pp.Keyword("epsilon") | pp.Keyword("IDENT") | pp.Keyword("FLOAT_LIT") | pp.Keyword("BOOL_LIT") | pp.Keyword("INT_LIT")).set_results_name("terminal")
     non_terminal = pp.Group(pp.Word(pp.alphas+"_")).set_results_name("non-terminal")
 
@@ -36,10 +35,9 @@ def graph_of_grammar(grammartext):
     grammar = pp.OneOrMore(pp.Group(production)).set_results_name("grammar")
 
 
-
-    rules = grammar.parse_file("lr.bnf", parse_all=True).as_dict()
-
-
+    #rules = grammar.parse_file("lr.bnf", parse_all=True).as_dict()
+    rules = grammar.parse_string(grammartext,parse_all=True).as_dict() 
+    
 
     non_terminals = {}
 
