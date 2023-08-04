@@ -35,11 +35,9 @@ def graph_of_grammar(grammartext):
     production = pp.Group(head + pp.Keyword("::=") + body).set_results_name("production")
     grammar = pp.OneOrMore(pp.Group(production)).set_results_name("grammar")
 
-    print(grammar.parse_file("lr.bnf", parse_all=True))
+
 
     rules = grammar.parse_file("lr.bnf", parse_all=True).as_dict()
-
-    print(rules)
 
 
 
