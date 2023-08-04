@@ -94,6 +94,9 @@ dmypy.json
 # profiling data
 .prof
 
+# lib doctests
+alert/lib/doctest-output/
+
 
 ### Node ######################################################################
 
