@@ -49,5 +49,4 @@ settings = Dynaconf(
 )
 
 
-
 load_azure_key_vault(settings)
