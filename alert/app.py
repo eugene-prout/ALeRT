@@ -11,13 +11,11 @@ def create_app():
     :return: Flask app
     """
     app = Flask(__name__)
-    
+
     app.config.from_object("config.settings")
 
-    app.config['SECRET_KEY'] = 'supersecretunguessablekey'
+    app.config["SECRET_KEY"] = "supersecretunguessablekey"
 
     app.register_blueprint(application)
-
-    
 
     return app
