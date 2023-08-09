@@ -1,0 +1,68 @@
+<div class="card">
+    <div class="card-body">
+
+        <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="editor-tab"
+                    data-bs-toggle="tab" data-bs-target="#editor-tab-pane"
+                    type="button" role="tab" aria-controls="editor-tab-pane"
+                    aria-selected="true">
+                    Editor
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="output-tab" data-bs-toggle="tab"
+                    data-bs-target="#output-tab-pane" type="button" role="tab"
+                    aria-controls="output-tab-pane" aria-selected="false">
+                    Output
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="split-tab" data-bs-toggle="tab"
+                    data-bs-target="#split-tab-pane" type="button" role="tab"
+                    aria-controls="split-tab-pane" aria-selected="false">
+                    Split
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="tabControl">
+            <div class="tab-pane active" id="editor-tab-pane" role="tabpanel"
+                aria-labelledby="editor-tab" tabindex="0">
+                <form action="" method="post">
+                    {{ form.hidden_tag() }}
+                    <p>
+                        {{ form.grammar_editor.label }}<br>
+                        {{ form.grammar_editor(cols=100,rows=25) }}<br>
+                        {{ form.submit() }}<br>
+                    </p>
+                </form>
+
+            </div>
+            <div class="tab-pane" id="output-tab-pane" role="tabpanel"
+                aria-labelledby="output-tab" tabindex="0">
+                <img src="{{ url_for('static', filename='/assets/frog.jpg') }}"
+                    style="max-width: 100%; max-height: 75vh;">
+            </div>
+            <div class="tab-pane" id="split-tab-pane" role="tabpanel"
+                aria-labelledby="split-tab" tabindex="0">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <p>
+                                {{ form.grammar_editor.label }}<br>
+                                {{ form.grammar_editor(cols=60,rows=25) }}<br>
+                                {{ form.submit() }}<br>
+                            </p>
+                        </div>
+                        <div class="col-sm">
+                            <img src="{{ url_for('static', filename='/assets/frog.jpg') }}"
+                            style="max-width: 100%; max-height: 75vh;">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>

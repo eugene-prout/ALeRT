@@ -48,4 +48,5 @@ settings = Dynaconf(
     settings_files=["settings.toml"],
 )
 
+
 load_azure_key_vault(settings)
