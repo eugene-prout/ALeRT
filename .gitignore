@@ -97,6 +97,7 @@ dmypy.json
 # lib doctests
 alert/lib/doctest-output/
 alert/doctest-output/
+alert/output_graphs/
 
 
 ### Node ######################################################################
