@@ -35,7 +35,6 @@
                         {{ form.grammar_editor.label }}<br>
                         {{ form.grammar_editor(cols=100,rows=25) }}<br>
                         {{ form.submit(onclick="get_graph();") }}<br>
-                        <input id="clickMe" type="button" value="clickme" onclick="get_graph();" />
                     </p>
                 </form>
 
@@ -43,8 +42,11 @@
             <div class="tab-pane" id="output-tab-pane" role="tabpanel"
                 aria-labelledby="output-tab" tabindex="0">
                 <img src="{{ url_for('static', filename='/assets/frog.jpg') }}"
-                    style="max-width: 100%; max-height: 75vh;"
-                    class="graph">
+                style="max-width: 100%; max-height: 75vh;"
+                class="graph">
+                {% if filename %}
+                    <body onload="get_graph();"></body>
+                {% endif %}
             </div>
             <div class="tab-pane" id="split-tab-pane" role="tabpanel"
                 aria-labelledby="split-tab" tabindex="0">
@@ -77,7 +79,6 @@
         // This function gets the graph
         async function get_graph() {
             // Make random UUID to name graph
-            let uuid = Math.floor(Math.random()*100000); // Replace with different random function. This one is bad practice?
 
             imgs = document.getElementsByClassName("graph");
             for(var i=0,l=imgs.length;i<l;i++) {
@@ -90,15 +91,14 @@
                 image = new Image();
                 image.onload = resolve;
                 // This src is for testing purposes just to show a graph does load once generated
-                image.src = "{{ url_for('static', filename='output_graphs/e.jpg') }}";
+                image.src = "{{ url_for('static', filename='output_graphs/'+filename+'.jpg') }}";
                 //image.src = "{{ url_for('static', filename='output_graphs/" + uuid + ".jpg') }}";
             });
 
             await imageLoadPromise;
-            console.log('image loaded');
 
             for(var i=0,l=imgs.length;i<l;i++) {
-                imgs[i].src="{{ url_for('static', filename='/output_graphs/e.jpg') }}";
+                imgs[i].src="{{ url_for('static', filename='output_graphs/'+filename+'.jpg') }}";
                 //imgs[i].src = "{{ url_for('static', filename='output_graphs/" + uuid + ".jpg') }}";
             }
             return;
