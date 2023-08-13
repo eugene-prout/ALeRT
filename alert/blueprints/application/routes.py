@@ -15,6 +15,10 @@ def home():
 
     return render_template("application/home.html", form=form)
 
+# @application.route("/gen_graph", methods=['POST'])
+# def gen_graph():
+#     graph_script.graph_of_grammar(request.form)
+
 @application.route("/health")
 def health():
     return {"status": "healthy"}, 200
