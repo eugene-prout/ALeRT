@@ -11,10 +11,9 @@ application = Blueprint("user", __name__)
 def home():
     form = EditGrammarForm()
     if form.validate_on_submit():
-        graph_script.graph_of_grammar(form.grammar_editor.data)
+        graph_script.graph_of_grammar(form.grammar_editor.data,filename='e')
 
     return render_template("application/home.html", form=form)
-
 
 @application.route("/health")
 def health():
