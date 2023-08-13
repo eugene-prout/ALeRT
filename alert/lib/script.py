@@ -110,4 +110,4 @@ def graph_of_grammar(grammartext,filename=''):
         if item.top_level_terminals is not None:
             dot.edge(item.name, item.top_level_terminals.get_rep())
 
-    dot.render(directory="output_graphs", view=True, format="jpg",filename=filename)
+    dot.render(directory="static/output_graphs", view=True, format="jpg",filename=filename)
