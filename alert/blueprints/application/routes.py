@@ -19,7 +19,7 @@ def home():
             "application/home.html", form=form, filename=str(filename)
         )
 
-    return render_template("application/home.html", form=form, filename='frog')
+    return render_template("application/home.html", form=form, filename="frog")
 
 
 # @application.route("/gen_graph", methods=['POST'])
