@@ -27,7 +27,7 @@ class TerminalSet:
         return ",".join(self.value)
 
 
-def graph_of_grammar(grammartext,filename=''):
+def graph_of_grammar(grammartext, filename=""):
     terminal = pp.Group(
         pp.QuotedString('"')
         | pp.Keyword("epsilon")
@@ -110,4 +110,4 @@ def graph_of_grammar(grammartext,filename=''):
         if item.top_level_terminals is not None:
             dot.edge(item.name, item.top_level_terminals.get_rep())
 
-    dot.render(directory="static/output_graphs", format="jpg",filename=filename)
+    dot.render(directory="static/output_graphs", format="jpg", filename=filename)

@@ -13,15 +13,19 @@ application = Blueprint("user", __name__)
 def home():
     form = EditGrammarForm()
     if form.validate_on_submit():
-        filename = random.randint(1,10000000)
-        graph_script.graph_of_grammar(form.grammar_editor.data,filename=str(filename))
-        return render_template("application/home.html",form=form,filename=str(filename))
+        filename = random.randint(1, 10000000)
+        graph_script.graph_of_grammar(form.grammar_editor.data, filename=str(filename))
+        return render_template(
+            "application/home.html", form=form, filename=str(filename)
+        )
 
     return render_template("application/home.html", form=form)
+
 
 # @application.route("/gen_graph", methods=['POST'])
 # def gen_graph():
 #     graph_script.graph_of_grammar(request.form)
+
 
 @application.route("/health")
 def health():
