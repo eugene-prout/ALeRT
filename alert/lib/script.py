@@ -27,7 +27,9 @@ class TerminalSet:
         return ",".join(self.value)
 
 
-def graph_of_grammar(grammartext, filename=""):
+def graph_of_grammar(grammartext, filename=None) -> str:
+    if filename == None:
+        filename = uuid.uuid4()
     terminal = pp.Group(
         pp.QuotedString('"')
         | pp.Keyword("epsilon")
