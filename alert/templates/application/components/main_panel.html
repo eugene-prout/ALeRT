@@ -34,7 +34,7 @@
                     <p>
                         {{ form.grammar_editor.label }}<br>
                         {{ form.grammar_editor(cols=100,rows=25) }}<br>
-                        {{ form.submit() }}<br>
+                        {{ form.submit(onclick="get_graph();") }}<br>
                     </p>
                 </form>
 
@@ -42,7 +42,11 @@
             <div class="tab-pane" id="output-tab-pane" role="tabpanel"
                 aria-labelledby="output-tab" tabindex="0">
                 <img src="{{ url_for('static', filename='/assets/frog.jpg') }}"
-                    style="max-width: 100%; max-height: 75vh;">
+                style="max-width: 100%; max-height: 75vh;"
+                class="graph">
+                {% if filename %}
+                    <body onload="get_graph();"></body>
+                {% endif %}
             </div>
             <div class="tab-pane" id="split-tab-pane" role="tabpanel"
                 aria-labelledby="split-tab" tabindex="0">
@@ -57,7 +61,8 @@
                         </div>
                         <div class="col-sm">
                             <img src="{{ url_for('static', filename='/assets/frog.jpg') }}"
-                            style="max-width: 100%; max-height: 75vh;">
+                            style="max-width: 100%; max-height: 75vh;"
+                            class="graph">
                         </div>
                     </div>
                 </div>
@@ -66,3 +71,37 @@
             </div>
         </div>
     </div>
+
+
+{% block scripts %}
+    <script>
+
+        // This function gets the graph
+        async function get_graph() {
+            // Make random UUID to name graph
+
+            imgs = document.getElementsByClassName("graph");
+            for(var i=0,l=imgs.length;i<l;i++) {
+                imgs[i].src="{{ url_for('static', filename='assets/loading.gif') }}";
+            }
+
+            let image;
+            
+            const imageLoadPromise = new Promise(resolve => {
+                image = new Image();
+                image.onload = resolve;
+                // This src is for testing purposes just to show a graph does load once generated
+                image.src = "{{ url_for('static', filename='output_graphs/'+filename+'.jpg') }}";
+                //image.src = "{{ url_for('static', filename='output_graphs/" + uuid + ".jpg') }}";
+            });
+
+            await imageLoadPromise;
+
+            for(var i=0,l=imgs.length;i<l;i++) {
+                imgs[i].src="{{ url_for('static', filename='output_graphs/'+filename+'.jpg') }}";
+                //imgs[i].src = "{{ url_for('static', filename='output_graphs/" + uuid + ".jpg') }}";
+            }
+            return;
+        }
+    </script>
+{% endblock %}
