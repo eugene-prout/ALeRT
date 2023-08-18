@@ -6,12 +6,13 @@
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              Accordion Item #1
+              What is a Grammar?
             </button>
           </h2>
           <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-              <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+              A grammar is a specification for a <b>set of valid strings in a language</b>. 
+              These grammars help describe the structure of a language in a logical way, making them useful for building compilers.
             </div>
           </div>
         </div>
@@ -19,12 +20,15 @@
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              Accordion Item #2
+              What is a First Set?
             </button>
           </h2>
           <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-              <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+              <p>The First Set is the property of a grammar (Or a single grammar symbol), describing the terminals that can appear as the <b>first symbol derived from another symbol</b>, typically a non-terminal.
+              </p>
+              <p>This is a useful concept as the First Set can help us craft a grammar that is equivalent to the one we want, but with <b>less of some undesirable properties</b> like Left Recursion.
+                </p>
             </div>
           </div>
         </div>
@@ -32,15 +36,36 @@
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-              Accordion Item #3
+              What is Left Recursion?
             </button>
           </h2>
           <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-              <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+              <p>Left Recursion is when a non-terminal in a grammar can <b>derive itself</b> as the first symbol. This can be either direct (A ::= A) or indirect through a chain of rules. There are algorithmic ways to <b>eliminate this left-recursion</b>, which allows top-down parsers to parse the grammar.
+              </p>
+              <p>This often results in a less intuitive grammar, and it can hurt associativity when parsing, requiring extra work.
+                </p>
             </div>
           </div>
         </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+              What does ALeRT do?
+            </button>
+          </h2>
+          <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <p>First Sets of non-terminals have a <b>dependency relationship</b> between each other. For example in A ::= B, the first set of A includes that of B, resulting in a 'dependency'.
+              </p>
+              <p>ALeRT generates a graph of these dependencies to help visualise where to look in a grammar to <b>eliminate left recursion</b>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+
       </div>
 
     </div>
