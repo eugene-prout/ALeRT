@@ -2,14 +2,53 @@
     <div class="card-body">
 
       <div class="accordion" id="accordionExample">
-
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              What is a Grammar?
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              What does ALeRT do?
             </button>
           </h2>
           <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <p>First Sets of non-terminals have a <b>dependency relationship</b> between each other. For example in A ::= B, the first set of A includes that of B, resulting in a 'dependency'.
+              </p>
+              <p>ALeRT generates a graph of these dependencies to help visualise where to look in a grammar to <b>eliminate left recursion</b>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              How do I input my grammar?
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <p>Enter each production on a new line. Use <code>::=</code> as the derives symbol. 
+                Enter non-terminals as capitial letters and terminals as quoted strings. 
+                To create a null-production use the string <code>epsilon</code>, unquoted. See the example below
+              </p>
+              <p><pre>
+A ::= B C
+B ::= E
+C ::= "a"
+E ::= C
+    | A
+                </pre>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              What is a Grammar?
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
               A grammar is a specification for a <b>set of valid strings in a language</b>. 
               These grammars help describe the structure of a language in a logical way, making them useful for building compilers.
@@ -19,11 +58,11 @@
 
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
               What is a First Set?
             </button>
           </h2>
-          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
               <p>The First Set is the property of a grammar (Or a single grammar symbol), describing the terminals that can appear as the <b>first symbol derived from another symbol</b>, typically a non-terminal.
               </p>
@@ -35,11 +74,11 @@
 
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
               What is Left Recursion?
             </button>
           </h2>
-          <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
               <p>Left Recursion is when a non-terminal in a grammar can <b>derive itself</b> as the first symbol. This can be either direct (A ::= A) or indirect through a chain of rules. There are algorithmic ways to <b>eliminate this left-recursion</b>, which allows top-down parsers to parse the grammar.
               </p>
@@ -48,23 +87,6 @@
             </div>
           </div>
         </div>
-
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-              What does ALeRT do?
-            </button>
-          </h2>
-          <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-              <p>First Sets of non-terminals have a <b>dependency relationship</b> between each other. For example in A ::= B, the first set of A includes that of B, resulting in a 'dependency'.
-              </p>
-              <p>ALeRT generates a graph of these dependencies to help visualise where to look in a grammar to <b>eliminate left recursion</b>.
-              </p>
-            </div>
-          </div>
-        </div>
-
 
       </div>
 
