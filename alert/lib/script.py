@@ -58,7 +58,7 @@ def graph_of_grammar(grammartext, filename=None) -> str:
 
     non_terminals = {}
 
-    terminals = {"epsilon": Terminal("epislon")}
+    terminals = {"epsilon": Terminal("epsilon")}
     terminal_sets = {}
 
     for _production in rules["grammar"]:
