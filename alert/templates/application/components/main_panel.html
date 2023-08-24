@@ -53,11 +53,14 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm">
-                            <p>
-                                {{ form.grammar_editor.label }}<br>
-                                {{ form.grammar_editor(cols=60,rows=25) }}<br>
-                                {{ form.submit() }}<br>
-                            </p>
+                            <form action="" method="post">
+                                {{ form.hidden_tag() }}
+                                <p>
+                                    {{ form.grammar_editor.label }}<br>
+                                    {{ form.grammar_editor(cols=60,rows=25) }}<br>
+                                    {{ form.submit(onclick="get_graph();") }}<br>
+                                </p>
+                            </form>
                         </div>
                         <div class="col-sm">
                             <img src="{{ url_for('static', filename='/assets/frog.jpg') }}"
