@@ -1,13 +1,12 @@
 from flask import Flask
 
-from alert.blueprints.application.routes import application
+from alert.handlers import health, home
 
 
 def create_app():
     """
     Create a Flask application using the app factory pattern.
 
-    :param settings_override: Override settings
     :return: Flask app
     """
     app = Flask(__name__)
@@ -16,6 +15,7 @@ def create_app():
 
     app.config["SECRET_KEY"] = app.config["SECRETKEY"]
 
-    app.register_blueprint(application)
+    app.add_url_rule("/", "home", home, methods=["GET", "POST"])
+    app.add_url_rule("/health", "health", health)
 
     return app
