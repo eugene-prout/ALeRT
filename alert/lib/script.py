@@ -1,113 +1,123 @@
-from typing import List
-import uuid
 import pyparsing as pp
-import graphviz
 
 
-class NonTerminal:
-    def __init__(self, name, dependencies) -> None:
-        self.name = name
-        self.dependencies = []
-        self.top_level_terminals = None
+class Node(object):
+    def __init__(self, tokens):
+        self._tokens = tokens
 
-    def __str__(self):
-        return f"{self.name}"
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self._tokens.as_list()})"
 
 
-class Terminal:
-    def __init__(self, value) -> None:
-        self.value = value
+class Terminal(Node):
+    def __init__(self, tokens: pp.ParseResults):
+        self.value = tokens[0]
+
+    def __repr__(self):
+        return f"Terminal('{self.value}')"
 
 
-class TerminalSet:
-    def __init__(self, terminals: List[Terminal]):
-        self.value = [x.value for x in terminals]
+class NonTerminal(Node):
+    def __init__(self, tokens):
+        self.value = tokens[0]
 
-    def get_rep(self) -> str:
-        return ",".join(self.value)
+    def __repr__(self):
+        return f"NonTerminal('{self.value}')"
 
 
-def graph_of_grammar(grammartext):
-    terminal = pp.Group(
+class Derivation(Node):
+    def __init__(self, tokens: pp.ParseResults):
+        self.symbols = tokens.as_list()
+
+    def __repr__(self):
+        return f"Derivation({self.symbols})"
+
+
+class Production(Node):
+    def __init__(self, tokens):
+        token_list = tokens.as_list()
+        self.head, *self.derivations = token_list
+
+        self.first_set_terminals = []
+        self.first_set_nonterminals = []
+
+        for d in self.derivations:
+            d: Derivation
+            first_symbol = d.symbols[0]
+            if type(first_symbol) == Terminal:
+                self.first_set_terminals.append(first_symbol)
+            elif type(first_symbol) == NonTerminal:
+                self.first_set_nonterminals.append(first_symbol)
+
+    def __repr__(self):
+        return f"Production({self.head},{self.derivations})"
+
+
+class Grammar(Node):
+    def __init__(self, tokens):
+        self.productions: list[Production] = tokens.as_list()
+
+    def __repr__(self):
+        output = "\n\t".join(p.__repr__() for p in self.productions)
+        return f"Grammar([{output}])"
+
+
+def generate_grammar():
+    terminal = (
         pp.QuotedString('"')
         | pp.Keyword("epsilon")
         | pp.Keyword("IDENT")
         | pp.Keyword("FLOAT_LIT")
         | pp.Keyword("BOOL_LIT")
         | pp.Keyword("INT_LIT")
-    ).set_results_name("terminal")
-    non_terminal = pp.Group(pp.Word(pp.alphas + "_")).set_results_name("non-terminal")
-
-    expression = pp.OneOrMore(pp.Group(terminal | non_terminal), stop_on=pp.White("\n"))
-
-    head = pp.Word(pp.alphas + "_").set_results_name("head")
-    body = pp.Group(
-        pp.Group(expression)
-        + pp.ZeroOrMore(pp.Keyword("|").suppress() + pp.Group(expression))
-    ).set_results_name("body")
-
-    production = pp.Group(head + pp.Keyword("::=") + body).set_results_name(
-        "production"
     )
-    grammar = pp.OneOrMore(pp.Group(production)).set_results_name("grammar")
+    terminal.add_parse_action(Terminal)
 
-    # rules = grammar.parse_file("lr.bnf", parse_all=True).as_dict()
-    rules = grammar.parse_string(grammartext, parse_all=True).as_dict()
+    non_terminal = pp.Word(pp.alphas + "_")
+    non_terminal.add_parse_action(NonTerminal)
 
-    non_terminals = {}
+    derivation = pp.OneOrMore(terminal | non_terminal, stop_on=pp.White("\n"))
+    derivation.add_parse_action(Derivation)
 
-    terminals = {"epsilon": Terminal("epislon")}
-    terminal_sets = {}
-
-    for _production in rules["grammar"]:
-        _p = _production["production"]
-        non_terminals[_p["head"]] = NonTerminal(_p["head"], None)
-        derivations = _p["body"]
-        for d in derivations:
-            for item in d:
-                if "terminal" in item:
-                    value = item["terminal"][0]
-                    terminals[value] = Terminal(value)
-
-    terminal_set_map = {}
-
-    for _production in rules["grammar"]:
-        _p = _production["production"]
-        derivations = _p["body"]
-        terminals_set = []
-        for d in derivations:
-            first_element_of_deriv = d[0]
-            if "non-terminal" in first_element_of_deriv:
-                non_terminals[_p["head"]].dependencies.append(
-                    non_terminals[first_element_of_deriv["non-terminal"][0]]
-                )
-            if "terminal" in first_element_of_deriv:
-                terminals_set.append(terminals[first_element_of_deriv["terminal"][0]])
-
-        if len(terminals_set) > 0:
-            new_set = TerminalSet(terminals_set)
-            if new_set.get_rep() not in terminal_set_map:
-                terminal_set_map[new_set.get_rep()] = new_set
-                non_terminals[_p["head"]].top_level_terminals = new_set
-            else:
-                non_terminals[_p["head"]].top_level_terminals = terminal_set_map[
-                    new_set.get_rep()
-                ]
-
-    dot = graphviz.Digraph(
-        str(uuid.uuid4()), comment="First set dependencies", strict=True
+    production = (
+        non_terminal
+        + pp.Keyword("::=").suppress()
+        + derivation
+        + pp.ZeroOrMore(pp.Keyword("|").suppress() + derivation)
     )
+    production.add_parse_action(Production)
 
-    for item in terminal_set_map.values():
-        dot.node(item.get_rep())
+    grammar = pp.OneOrMore(production)
+    grammar.add_parse_action(Grammar)
+    return grammar
 
-    for item in non_terminals.values():
-        new_node = dot.node(item.name)
 
-    for item in non_terminals.values():
-        for dest in item.dependencies:
-            dot.edge(item.name, dest.name)
-        if item.top_level_terminals is not None:
-            dot.edge(item.name, item.top_level_terminals.get_rep())
+def parse_string(string) -> Grammar:
+    grammar = generate_grammar()
+    output = grammar.parse_string(string, parse_all=True)
+    return output[0]  # type: ignore
 
-    dot.render(directory="doctest-output", view=True)
+
+def calculate_graph(prods: list[Production]) -> tuple[set[str], set[tuple[str, str]]]:
+    nodes = set()
+    edges = set()
+    for p in prods:
+        nodes.add(p.head.value)
+        if len(p.first_set_terminals) > 0:
+            terminal_node = ",".join(t.value for t in p.first_set_terminals)
+            nodes.add(terminal_node)
+
+            edges.add((p.head.value, terminal_node))
+
+        for nt in p.first_set_nonterminals:
+            if nt.value not in nodes:
+                nodes.add(nt.value)
+            edges.add((p.head.value, nt.value))
+
+    return nodes, edges
+
+
+def generate_graph(input_grammar: str):
+    user_grammar = parse_string(input_grammar)
+    nodes, edges = calculate_graph(user_grammar.productions)
+    return nodes, edges
