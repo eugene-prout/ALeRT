@@ -1,7 +1,7 @@
 import pyparsing as pp
 
 
-class Node:
+class Node(object):
     def __init__(self, tokens):
         self._tokens = tokens
 
