@@ -1,7 +1,6 @@
-from flask import request
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField, SubmitField
-from wtforms.validators import ValidationError, DataRequired, Length
+from wtforms.validators import DataRequired
 
 
 class EditGrammarForm(FlaskForm):

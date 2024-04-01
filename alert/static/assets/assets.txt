@@ -1,3 +1,0 @@
-Put static assets in this folder.
-
-Fonts and images for example

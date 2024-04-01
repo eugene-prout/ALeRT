@@ -1,3 +1,0 @@
-Put CSS files in this folder
-
-Use local copies rather than CDN versions
